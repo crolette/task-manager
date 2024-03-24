@@ -1,3 +1,4 @@
-<!-- TODO Check if the database exists -->
-<!-- TODO If the database do not exist, create it -->
-<!-- TODO If the database exists, retrieve datas -->
+<!-- TODO Confirm deletion of a task -->
+<!-- TODO Show only the tasks that are not done -->
+<!-- TODO Put the done tasks in another table -->
+

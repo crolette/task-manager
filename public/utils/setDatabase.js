@@ -1,14 +1,14 @@
 // environnment variable
-const { connectToDatabase, endConnection } = require('./filesystem');
+// const { connectToDatabase, endConnection } = require('./utils/database');
+import { connectToDatabase, endConnection } from './database.js';
 
 // function to set a tasks
 async function setTask(description) {
-	console.log('setTask');
 	try {
 		const conn = await connectToDatabase();
 		const result = await conn.query(
-			`INSERT INTO tasks(description, done) VALUES(?,?)`,
-			[description, (done = false)]
+			`INSERT INTO tasks(description) VALUES(?)`,
+			[description]
 		);
 		endConnection(conn);
 		return result;
@@ -50,3 +50,5 @@ module.exports = {
 	deleteTask,
 	setDoneTask,
 };
+
+export { setTask };

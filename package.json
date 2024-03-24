@@ -1,17 +1,17 @@
 {
-	"name": "noder-server",
+	"name": "node-server",
 	"version": "1.0.0",
 	"description": "a little server to run node",
 	"main": "app.js",
 	"scripts": {
-		"start": "node server",
 		"dev": "nodemon server"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"dotenv": "^16.4.5",
-		"express": "^4.18.3",
+		"express": "^4.19.1",
+		"express-handlebars": "^7.1.2",
 		"mariadb": "^3.2.3"
 	},
 	"devDependencies": {
