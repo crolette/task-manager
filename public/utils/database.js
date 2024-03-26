@@ -56,8 +56,6 @@ const endConnection = (conn) => {
 // check if database exists
 // CREATE DATABASE IF NOT EXISTS DBName;
 async function checkDatabase() {
-	console.log('checkDB');
-	console.log(DB_NAME);
 	let db;
 	try {
 		let conn = await connectToServer();
@@ -75,7 +73,6 @@ async function checkDatabase() {
 }
 
 async function createDatabase() {
-	console.log('createDB');
 	let db;
 	let conn;
 	try {
@@ -90,7 +87,6 @@ async function createDatabase() {
 }
 
 async function checkIfIdExists(id) {
-	console.log('checkifIdexists');
 	try {
 		conn = await connectToDatabase();
 		db = await conn.query(`SELECT id FROM tasks WHERE id = ?`, [id]);
@@ -102,7 +98,6 @@ async function checkIfIdExists(id) {
 }
 
 async function createTables() {
-	console.log('createTables');
 	conn = await connectToDatabase();
 	await conn.query(
 		'CREATE TABLE IF NOT EXISTS tasks(id INT PRIMARY KEY AUTO_INCREMENT, description VARCHAR(30), done BOOLEAN NOT NULL DEFAULT false)'
@@ -110,7 +105,6 @@ async function createTables() {
 	// await conn.query(
 	// 	'CREATE TABLE IF NOT EXISTS tasks_done(id INT PRIMARY KEY AUTO_INCREMENT, description VARCHAR(30), done BOOLEAN NOT NULL DEFAULT false)'
 	// );
-	console.log('tablesCreated');
 	endConnection(conn);
 }
 
@@ -122,3 +116,12 @@ module.exports = {
 	createDatabase,
 	checkIfIdExists,
 };
+
+// exports = {
+// 	connectToDatabase,
+// 	endConnection,
+// 	createDatabase,
+// 	checkDatabase,
+// 	createDatabase,
+// 	checkIfIdExists,
+// };

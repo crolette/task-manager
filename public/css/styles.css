@@ -18,10 +18,42 @@ body {
 	background-color: lightblue;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	font-size: 16px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
 h1 {
 	font-size: 3rem;
+}
+
+.container {
+	margin-top: 24px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 24px;
+	width: 50%;
+}
+
+#tasks_to_do h2,
+#tasks_done h2 {
+	background-color: initial;
+	text-align: center;
+	font-size: 2rem;
+	font-weight: bold;
+	margin-bottom: 16px;
+}
+
+#tasks_to_do {
+	background-color: yellow;
+	width: 50%;
+}
+
+#tasks_done {
+	background-color: lightgreen;
+	width: 50%;
 }
 
 footer {

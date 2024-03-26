@@ -3,10 +3,6 @@ const {
 	getTasksDone,
 	getTasksNotDone,
 } = require('../utils/getDatabase');
-const express = require('express');
-// const router = express.Router();
-
-
 
 homepage = async (req, res) => {
 	const tasksToDo = await getTasksNotDone();
@@ -14,6 +10,8 @@ homepage = async (req, res) => {
 
 	res.render('home', { tasksToDo: tasksToDo, tasksDone: tasksDone });
 };
+
+
 
 renderTasks = async (req, res) => {
 	const allTasks = await getTasks();
