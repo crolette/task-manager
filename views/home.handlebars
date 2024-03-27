@@ -1,4 +1,11 @@
 <h1>Task Manager</h1>
+{{#if user}}
+	<form action='/' method='post'>
+		<label for='description'>Name of the new task:</label>
+		<input type='text' id='description' name='description' required />
+		<button type='submit'>Submit</button>
+	</form>
+{{/if}}
 
 <div class='container'>
 	<div id='tasks_to_do'>
@@ -7,7 +14,7 @@
 			{{#each tasksToDo}}
 				<li>{{this.id}} : {{this.description}}</li>
 			{{/each}}
-		</ul>>
+		</ul>
 	</div>
 	<div id='tasks_done'>
 		<h2>Done Tasks</h2>
@@ -15,6 +22,6 @@
 			{{#each tasksDone}}
 				<li>{{this.id}} : {{this.description}}</li>
 			{{/each}}
-		</ul>>
+		</ul>
 	</div>
 </div>

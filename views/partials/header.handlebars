@@ -1,10 +1,15 @@
 <nav>
 	<ul>
-		<li><a href='/'>Home</a></li>
-		<li><a href='/alltasks'>See all tasks</a></li>
-		<li><a href='/donetasks'>See done tasks</a></li>
-		<li><a href='/delete'>Delete a task</a></li>
-		<li><a href='/done'>Mark a task as done</a></li>
+		{{#if user}}
+			<li>Welcome, {{user}}</li>
+			<li><a href='/'>Home</a></li>
+			<li><a href='/alltasks'>See all tasks to do</a></li>
+			<li><a href='/donetasks'>See done tasks</a></li>
+			<li><a href='/delete'>Delete a task</a></li>
+			<li><a href='/done'>Mark a task as done</a></li>
+		{{else}}
+			<li><a href='/login'>Login</a></li>
+		{{/if}}
 
 	</ul>
 </nav>

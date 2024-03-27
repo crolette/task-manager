@@ -26,6 +26,7 @@ body {
 
 h1 {
 	font-size: 3rem;
+	margin: 16px 8px;
 }
 
 .container {
@@ -46,14 +47,47 @@ h1 {
 	margin-bottom: 16px;
 }
 
+#tasks_to_do li,
+#tasks_done li {
+	margin-bottom: 4px;
+	padding: 8px;
+}
+
+#tasks_to_do li {
+	background-color: lightsalmon;
+}
+
+#tasks_done li {
+	background-color: lightgreen;
+}
+
+#tasks_done,
 #tasks_to_do {
-	background-color: yellow;
 	width: 50%;
 }
 
-#tasks_done {
-	background-color: lightgreen;
+form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	margin: 8px;
+	padding: 8px;
 	width: 50%;
+	background-color: lightskyblue;
+}
+
+button {
+	cursor: pointer;
+	padding: 4px;
+	background-color: rgb(85, 158, 204);
+	transition: transform 0.3s;
+
+	&:hover {
+		background-color: rgb(46, 128, 179);
+		color: #fff;
+		transform: scale(0.9);
+	}
 }
 
 footer {

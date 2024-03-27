@@ -1,4 +1,4 @@
-const { getTasksNotDone } = require('../utils/getDatabase');
+const { getTasksNotDone, getTaskById } = require('../utils/getDatabase');
 const { deleteTask } = require('../utils/setDatabase');
 
 deletetaskslist = async (req, res) => {
@@ -9,9 +9,13 @@ deletetaskslist = async (req, res) => {
 
 deletetask = async (req, res) => {
 	const formData = req.body;
+	const task = await getTaskById(formData.id);
 	await deleteTask(formData.id);
 
-	res.render('submitted', { formData, message: `Task ${formData.id} deleted` });
+	res.render('submitted', {
+		task,
+		message: `Task ${formData.id} deleted`,
+	});
 };
 
 module.exports = {

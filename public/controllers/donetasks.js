@@ -1,6 +1,5 @@
-const { getTasksNotDone } = require('../utils/getDatabase');
+const { getTasksNotDone, getTaskById } = require('../utils/getDatabase');
 const { setDoneTask } = require('../utils/setDatabase');
-
 taskslist = async (req, res) => {
 	const tasksToDo = await getTasksNotDone();
 
@@ -10,9 +9,10 @@ taskslist = async (req, res) => {
 donetask = async (req, res) => {
 	const formData = req.body;
 	await setDoneTask(formData.id);
+	const task = await getTaskById(formData.id);
 
 	res.render('submitted', {
-		formData,
+		task,
 		message: `Task ${formData.id} marked as done`,
 	});
 };

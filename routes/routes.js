@@ -5,13 +5,19 @@ const { getTaskById } = require('../public/utils/getDatabase');
 const formtaskController = require('../public/controllers/formtask');
 const deletefromdb = require('../public/controllers/deletetask');
 const markdonetask = require('../public/controllers/donetasks');
+const loginController = require('../public/controllers/login');
 
 // Define routes
 
-router.get('/', tasksController.homepage);
+router
+	.route('/')
+	.get(tasksController.homepage)
+	.post(formtaskController.addtask);
 
-// router.get('/delete', deletefromdb.deletetaskslist);
-// router.post('/delete', deletefromdb.deletetask);
+router
+	.route('/login')
+	.get(loginController.loginUser)
+	.post(loginController.loginCheck);
 
 router
 	.route('/delete')
@@ -19,8 +25,6 @@ router
 	.post(deletefromdb.deletetask);
 
 router.route('/done').get(markdonetask.taskslist).post(markdonetask.donetask);
-
-router.post('/submitted', formtaskController.formtask);
 
 router.get('/alltasks', tasksController.renderTasks);
 
