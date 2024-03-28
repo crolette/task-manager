@@ -11,6 +11,7 @@ const checkUser = (req, res, next) => {
 				next();
 			} else {
 				let user = decodedToken.username;
+				console.log("user exists");
 				console.log(user);
 				res.locals.user = user;
 				next();

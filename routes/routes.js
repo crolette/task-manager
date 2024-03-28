@@ -11,13 +11,21 @@ const loginController = require('../public/controllers/login');
 
 router
 	.route('/')
+	.get(loginController.loginUser)
+	.post(loginController.loginCheck);	
+
+router.route('/logout')
+	.get(loginController.logOut)
+
+router.route('/signup')
+	.get(loginController.signUpForm)
+	.post(loginController.signUp)
+
+router
+	.route('/home')
 	.get(tasksController.homepage)
 	.post(formtaskController.addtask);
 
-router
-	.route('/login')
-	.get(loginController.loginUser)
-	.post(loginController.loginCheck);
 
 router
 	.route('/delete')

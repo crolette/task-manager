@@ -24,7 +24,7 @@ app.set('view engine', 'handlebars');
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('*',checkUser);
+app.use('*', checkUser);
 app.use('/', require('./routes/routes'));
 
 app.listen(PORT, () => {

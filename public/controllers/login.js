@@ -1,6 +1,7 @@
-const { getUser } = require('../utils/getUsers');
+const { getUser, checkUserExists } = require('../utils/getUsers');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const { setUser } = require('../utils/setUsers');
 
 loginUser = async (req, res) => {
 	res.render('login');
@@ -10,7 +11,7 @@ loginCheck = async (req, res) => {
 	const { username, pwd } = req.body;
 	// if no username or pwd submitted, sends a 400 error
 	if (!username || !pwd)
-		return res.status(400).render('login', {
+		return res.status(400).render('/', {
 			message: 'Username and password are required.',
 		});
 
@@ -38,10 +39,73 @@ loginCheck = async (req, res) => {
 		maxAge: 24 * 60 * 60 * 100,
 	});
 
-	return res.status(200).render('login', { message: 'Successfully connected' });
+	return res.status(200).redirect('/home');
+};
+
+logOut = async (req, res) => {
+	console.log('logout');
+	const cookie = req.cookies;
+	console.log(cookie);
+
+	if (!cookie)
+		return res
+			.status(204)
+			.render('login', { message: 'You need to login or create an account' });
+
+	// delete the cookie when logged out
+	res.clearCookie('jwt', {
+		httpOnly: true,
+		sameSite: 'None',
+		secure: true,
+		maxAge: 0,
+	});
+
+	return res.status(204).redirect('/');
+};
+
+signUpForm = async (req, res) => {
+	res.render('signup');
+};
+
+signUp = async (req, res) => {
+	const { username, pwd } = req.body;
+	// if no username or pwd submitted, sends a 400 error
+
+	const userExists = await checkUserExists(username);
+	if (userExists)
+		return res.status(200).render('signup', {
+			message: 'User already exists, choose another username',
+		});
+	else {
+		console.log('create user');
+		await setUser(username, pwd);
+		console.log('user created');
+		// if user exists create a jwt token
+		const accessToken = jwt.sign(
+			{ username: username },
+			process.env.ACCESS_TOKEN
+		);
+
+		const refreshToken = jwt.sign(
+			{ username: username },
+			process.env.REFRESH_TOKEN,
+			{ expiresIn: '1d' }
+		);
+
+		res.cookie('jwt', refreshToken, {
+			httpOnly: true,
+			sameSite: 'None',
+			secure: true,
+			maxAge: 24 * 60 * 60 * 100,
+		});
+		return res.status(200).redirect('/home')
+	}
 };
 
 module.exports = {
 	loginUser,
 	loginCheck,
+	logOut,
+	signUpForm,
+	signUp,
 };
