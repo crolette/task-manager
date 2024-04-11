@@ -3,12 +3,13 @@ const { connectToDatabase, endConnection } = require('./database');
 // import { connectToDatabase, endConnection } from './database.js';
 
 // function to set a tasks
-async function setTask(description) {
+async function setTask(description, user_id) {
+	console.log('set Task');
 	try {
 		const conn = await connectToDatabase();
 		const result = await conn.query(
-			`INSERT INTO tasks(description) VALUES(?)`,
-			[description]
+			`INSERT INTO tasks(description, user_id) VALUES(?, ?)`,
+			[description, user_id]
 		);
 		endConnection(conn);
 		return result;

@@ -1,15 +1,19 @@
 const { getTasksNotDone, getTaskById } = require('../utils/getDatabase');
 const { setDoneTask } = require('../utils/setDatabase');
+const { getUser } = require('../utils/getUsers');
+
 taskslist = async (req, res) => {
-	const tasksToDo = await getTasksNotDone();
+	const user = await getUser(res.locals.user);
+	const tasksToDo = await getTasksNotDone(user.id);
 
 	res.render('done', { tasksToDo: tasksToDo });
 };
 
 donetask = async (req, res) => {
 	const formData = req.body;
+	const user = await getUser(res.locals.user);
 	await setDoneTask(formData.id);
-	const task = await getTaskById(formData.id);
+	const task = await getTaskById(formData.id, user.id);
 
 	res.render('submitted', {
 		task,

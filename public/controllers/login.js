@@ -1,17 +1,23 @@
-const { getUser, checkUserExists } = require('../utils/getUsers');
+const {
+	getUser,
+	checkUserExists,
+	checkPassword,
+} = require('../utils/getUsers');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const { setUser } = require('../utils/setUsers');
+const { setUser, setHashPwd } = require('../utils/setUsers');
 
 loginUser = async (req, res) => {
+	console.log('loginUser');
 	res.render('login');
 };
 
 loginCheck = async (req, res) => {
+	console.log('loginCheck')
 	const { username, pwd } = req.body;
 	// if no username or pwd submitted, sends a 400 error
 	if (!username || !pwd)
-		return res.status(400).render('/', {
+		return res.status(400).render('login', {
 			message: 'Username and password are required.',
 		});
 
@@ -20,26 +26,33 @@ loginCheck = async (req, res) => {
 	if (user == undefined)
 		return res.status(401).render('login', { message: `User do not exist` });
 
-	// if user exists create a jwt token
-	const accessToken = jwt.sign(
-		{ username: user.username },
-		process.env.ACCESS_TOKEN
-	);
+	if (checkPassword(user, pwd)) {
+		// if user exists create a jwt token
+		res.locals.user = username;
+		const accessToken = jwt.sign(
+			{ username: user.username },
+			process.env.ACCESS_TOKEN
+		);
 
-	const refreshToken = jwt.sign(
-		{ username: user.username },
-		process.env.REFRESH_TOKEN,
-		{ expiresIn: '1d' }
-	);
+		const refreshToken = jwt.sign(
+			{ username: user.username },
+			process.env.REFRESH_TOKEN,
+			{ expiresIn: '1d' }
+		);
 
-	res.cookie('jwt', refreshToken, {
-		httpOnly: true,
-		sameSite: 'None',
-		secure: true,
-		maxAge: 24 * 60 * 60 * 100,
-	});
+		res.cookie('jwt', refreshToken, {
+			httpOnly: true,
+			sameSite: 'None',
+			secure: true,
+			maxAge: 24 * 60 * 60 * 100,
+		});
 
-	return res.status(200).redirect('/home');
+		return res.status(200).redirect('/home');
+	} else {
+		return res
+			.status(401)
+			.render('login', { message: `Wrong username or password` });
+	}
 };
 
 logOut = async (req, res) => {
@@ -78,7 +91,9 @@ signUp = async (req, res) => {
 		});
 	else {
 		console.log('create user');
-		await setUser(username, pwd);
+		const [hash, salt] = await setHashPwd(pwd);
+
+		await setUser(username, hash, salt);
 		console.log('user created');
 		// if user exists create a jwt token
 		const accessToken = jwt.sign(
@@ -98,7 +113,7 @@ signUp = async (req, res) => {
 			secure: true,
 			maxAge: 24 * 60 * 60 * 100,
 		});
-		return res.status(200).redirect('/home')
+		return res.status(200).redirect('/home');
 	}
 };
 

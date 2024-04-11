@@ -2,6 +2,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 const checkUser = (req, res, next) => {
+	console.log('checkUser');
 	const token = req.cookies.jwt;
 	if (token) {
 		jwt.verify(token, process.env.REFRESH_TOKEN, (err, decodedToken) => {
@@ -14,6 +15,7 @@ const checkUser = (req, res, next) => {
 				console.log("user exists");
 				console.log(user);
 				res.locals.user = user;
+				// res.redirect('/home')
 				next();
 			}
 		});

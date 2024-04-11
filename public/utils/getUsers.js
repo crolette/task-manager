@@ -1,4 +1,5 @@
 const { connectToDatabase, endConnection } = require('./database');
+const crypto = require('crypto');
 
 // function to get all the tasks
 async function getUser(username) {
@@ -35,7 +36,16 @@ async function checkUserExists(username) {
 	}
 }
 
+function checkPassword(user, password) {
+	console.log('checkpassword');
+	const hashCheck = crypto
+		.pbkdf2Sync(password, user.salt, 1000, 64, `sha512`)
+		.toString(`hex`);
+	return user.hash === hashCheck;
+}
+
 module.exports = {
 	getUser,
 	checkUserExists,
+	checkPassword,
 };
