@@ -2,6 +2,10 @@
 
 TODO Create the db and the tables if not exist
 
+
+# JWT
+TODO Put the user_id in the JWT
+
 # User
 
 TODO Hash password when creating
